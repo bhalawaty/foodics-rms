@@ -2,8 +2,9 @@
 
 namespace App\Modules\Order\Models;
 
+use App\Modules\Product\Models\Product;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Order extends Model
 {
@@ -11,8 +12,10 @@ class Order extends Model
         'total_cost',
     ];
 
-    public function items(): HasMany
+    public function products(): BelongsToMany
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->belongsToMany(Product::class, 'order_products')
+            ->withPivot('total_amount', 'quantity')
+            ->withTimestamps();
     }
 }

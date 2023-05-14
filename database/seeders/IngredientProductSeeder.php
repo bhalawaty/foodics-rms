@@ -23,10 +23,12 @@ class IngredientProductSeeder extends Seeder
      */
     public function run(): void
     {
-        $product = Product::create([
+        $product =  Product::create([
             'name' => $this->faker->word(),
             'price' => $this->faker->numberBetween(100, 1000),
-        ])->first();
+            'created_at'=> now()->subDays(rand(0, 30)),
+            'updated_at'=> now()->subDays(rand(0, 30)),
+        ])->latest()->first();
 
         // Create at least three ingredients for each product
        Ingredient::insert([

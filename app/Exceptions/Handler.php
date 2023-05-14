@@ -2,7 +2,9 @@
 
 namespace App\Exceptions;
 
+use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -26,6 +28,15 @@ class Handler extends ExceptionHandler
         'password',
         'password_confirmation',
     ];
+
+    public function render($request, Exception|Throwable $e)
+    {
+        return new JsonResponse([
+            'errors' => [
+                'message' => $e->getMessage()
+            ]
+        ], 500);
+    }
 
     /**
      * Register the exception handling callbacks for the application.
