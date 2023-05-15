@@ -2,26 +2,24 @@
 namespace App\Modules\Product\Models;
 
 
-use App\Modules\Ingredient\Models\Ingredient;
-use App\Modules\Order\Models\OrderItem;
+use Database\Factories\ProductFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
+    use HasFactory;
+
+    /**
+     * Create a new factory instance for the model.
+     */
+    protected static function newFactory(): ProductFactory
+    {
+        return ProductFactory::new();
+    }
     protected $fillable = [
         'name',
         'price',
     ];
 
-    public function ingredients(): BelongsToMany
-    {
-        return $this->belongsToMany(Ingredient::class)->withPivot('quantity');
-    }
-
-    public function orderItems(): HasMany
-    {
-        return $this->hasMany(OrderItem::class);
-    }
 }
